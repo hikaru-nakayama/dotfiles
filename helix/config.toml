@@ -3,4 +3,13 @@ theme = "nord"
 [editor]
 auto-save = true
 
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
 
+[editor.whitespace.render]
+space = 'all'
+tab = 'all'
+
+[keys.normal]
+space.o = ":sh gh repo view --web"
