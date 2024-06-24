@@ -1,3 +1,19 @@
+[language-server.ruby-lsp]
+command = "ruby-lsp"
+args = []
+
+[language-server.ruby-lsp.config]
+rubyVersionManager = 'asdf'
+formatter = 'syntax_tree'
+
+[language-server.sorbet]
+command = "bundle"
+args = ["exec", "srb", "tc", "--lsp"]
+
+[language-server.rubocop]
+command = "bundle"
+args = ["exec", "rubocop", "--lsp"]
+
 [[language]]
 name = "go"
 scope = "source.go"
@@ -10,3 +26,22 @@ block-comment-tokens = { start = "/*", end = "*/" }
 language-servers = [ "gopls", "golangci-lint-lsp" ]
 # TODO: gopls needs utf-8 offsets?
 indent = { tab-width = 4, unit = "\t" }
+
+[[language]]
+name = "ruby"
+language-servers = [
+  { name = "ruby-lsp", except-features = [
+    "diagnostics",
+    "goto-definition",
+    "goto-declaration",
+    "goto-type-definition",
+    "goto-reference",
+    "goto-implementation",
+    "completion",
+    "rename-symbol",
+  ] },
+  "rubocop",
+  "sorbet",
+]
+auto-format = true
+
