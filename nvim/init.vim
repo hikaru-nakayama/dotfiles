@@ -8,6 +8,7 @@ set history=1000
 set encoding=utf8
 set clipboard+=unnamedplus
 set nowrap
+set cursorline
 syntax enable
 
 "// PLUGIN SETTINGS
@@ -25,9 +26,15 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'yaegassy/coc-ruby-syntax-tree', {'do': 'yarn install --frozen-lockfile'}
 Plug 'numToStr/Comment.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'dinhhuy258/git.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 
-
+nnoremap <silent> <Space>a ggVG
 nnoremap C :let @+= expand('%')<CR>
+nnoremap <silent> <Space>w :GBrowse<CR>
+
 " coc.nvim SETTINGS
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -47,6 +54,8 @@ let g:airline#extensions#tabline#enabled = 1
 nmap <C-p> <Pluag>AirlineSelectPrevTab
 nmap <C-n> <Plug>AirlineSelectNextTab
 nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-s> :NERDTreeFind<CR>
+
 
 " Airline SETTINGS
 let g:airline_powerline_fonts = 1
@@ -64,6 +73,7 @@ let g:nord_bold = v:false
 
 " Find files using Telescope command-line sugar.
 " Find files using Telescope command-line sugar.
+nnoremap <Space>G :lua require('telescope.builtin').live_grep({ search_dirs = {vim.fn.input("Directory: ")} })<CR>
 nnoremap <silent> <Space>f :Telescope find_files<CR>
 nnoremap <silent> <Space>g :Telescope live_grep<CR>
 nnoremap <silent> <Space>b :Telescope buffers<CR>
@@ -71,5 +81,19 @@ nnoremap :fh <cmd>Telescope help_tags<cr>
 
 call plug#end()
 
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  }
+}
+require('git').setup()
+require('gitsigns').setup()
+require('gitsigns').setup {
+  current_line_blame = true,
+}
+EOF
+
 lua require('Comment').setup()
 colorscheme nord
+
